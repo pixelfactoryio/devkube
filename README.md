@@ -1,27 +1,17 @@
-# Minikube
-
-## TL;DR
-
-```bash
-./install.sh
-```
-
-```bash
-make all
-```
+# DevKube (kind)
 
 ## Install
 
-1. Minikube
+1. GNU Make
 
 ```bash
-brew cask install minikube
+brew install make
 ```
 
-1. MKCert
+1. Smallstep (SSL certificates)
 
 ```bash
-brew install mkcert
+brew install step
 ```
 
 1. DNSMasq
@@ -30,44 +20,71 @@ brew install mkcert
 brew install dnsmasq
 ```
 
-## Configuratin
-
-1. Dnsmasq
-
-```bash
-sudo mkdir -p /etc/resolver
-```
-
-```bash
-sudo tee /etc/resolver/dev.pixelfactory.io > /dev/null <<EOF
-nameserver 127.0.0.1
-domain dev.pixelfactory.io
-search_order 1
-EOF
-```
-
-```bash
-mkdir -p /usr/local/etc/dnsmasq.conf.d/
-```
-
-```bash
-sudo tee /usr/local/etc/dnsmasq.conf > /dev/null <<EOF
-conf-dir=/usr/local/etc/dnsmasq.conf.d/
-EOF
-```
-
-## Usage 
+## Usage
 
 ```bash
 $ make
 Usage:
-  make <target>
+  make <target> <variables>
+
+Example:
+  make kind KIND_CLUSTER_NAME=devkube
+
+Defaults:
+  global        KIND_CLUSTER_NAME=devkube
+  global        BASE_DOMAIN=dev.local
+  cert-manager  NAMESPACE=cert-manager-system
+  cert-manager  CERTMANAGER_VERSION=v0.16.1
+  kind          KIND_KUBE_VERSION=kindest/node:v1.17.5@sha256:ab3f9e6ec5ad8840eeb1f76c89bb7948c77bbf76bcebe1a8b59790b8ae9a283a
+  postgresql    NAMESPACE=postgres-system
+  postgresql    POSTGRES_VERSION=10
+  prometheus    NAMESPACE=monitoring
+  registry      NAMESPACE=registry-system
+  traefik       NAMESPACE=traefik-system
 
 Targets:
-  dnsmasq         Update DNSMasq configuration
-  helm            Install Helm
-  help            Display help.
-  minikube        Start Minikube
-  mkcert          Install mkcert
-  traefik         Install Traefik
+  cert-manager   Install Cert-Manager
+  clean          Delete Kind cluster
+  dnsmasq        Start Dnsmasq
+  kind           Start Kind cluster
+  postgresql     Install Postgresql
+  prometheus     Install prometheus
+  registry       Install Docker Registry
+  smallstep      Create Smallstep SSL certificates
+  traefik        Install Traefik
+```
+
+### Start Kind
+
+```bash
+$ make kind
+
+$ make dnsmasq smallstep
+```
+
+### Add Cert-Manager
+
+```bash
+$ make cert-manager
+```
+
+### Add Traefik
+
+```bash
+$ make traefik
+```
+
+Traefik dashboard should be reachable <https://traefik.dev.local>
+
+### Add Docker registry
+
+```bash
+$ make registry
+```
+
+Ex:
+
+```bash
+$ docker build -t registry.dev.local/my-app:v1.0.0 -f Dockerfile .
+$ docker push registry.dev.local/my-app:v1.0.0
 ```

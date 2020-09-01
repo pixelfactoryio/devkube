@@ -1,0 +1,25 @@
+kubelet:
+  serviceMonitor:
+    https: true
+
+coreDns:
+  service:
+    selector: { k8s-app: coredns }
+
+prometheus:
+  prometheusSpec:
+    retention: 1d
+    enableAdminAPI: true
+  ingress:
+    enabled: false
+
+grafana:
+  ingress:
+    enabled: false
+
+alertmanager:
+  ingress:
+    enabled: false
+
+prometheusOperator:
+  logLevel: "debug"

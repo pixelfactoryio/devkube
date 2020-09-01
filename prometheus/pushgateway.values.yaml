@@ -1,0 +1,6 @@
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  selector:
+    app: prometheus-operator-prometheus
+    release: prometheus-operator-monitoring
