@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: traefik.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: traefik.${BASE_DOMAIN}
+  secretName: traefik.${BASE_DOMAIN}
+  dnsNames:
+    - traefik.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer

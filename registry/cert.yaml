@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: registry.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: registry.${BASE_DOMAIN}
+  secretName: registry.${BASE_DOMAIN}
+  dnsNames:
+    - registry.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer

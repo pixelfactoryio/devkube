@@ -1,0 +1,19 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/name: docker-registry
+  name: docker-registry
+  namespace: ${NAMESPACE}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`registry.${BASE_DOMAIN}`)
+      services:
+        - name: docker-registry
+          port: 5000
+          kind: Service
+  tls:
+    secretName: registry.${BASE_DOMAIN}

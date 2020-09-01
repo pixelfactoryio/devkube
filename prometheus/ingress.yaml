@@ -1,0 +1,80 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/name: prometheus
+  name: prometheus
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`prometheus.${BASE_DOMAIN}`)
+      services:
+        - name: prometheus-operator-prometheus
+          port: 9090
+          kind: Service
+  tls:
+    secretName: prometheus.${BASE_DOMAIN}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/name: grafana
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`grafana.${BASE_DOMAIN}`)
+      services:
+        - name: prometheus-operator-grafana
+          port: 80
+          kind: Service
+  tls:
+    secretName: grafana.${BASE_DOMAIN}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/name: alertmanager
+  name: alertmanager
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`alertmanager.${BASE_DOMAIN}`)
+      services:
+        - name: prometheus-operator-alertmanager
+          port: 9093
+          kind: Service
+  tls:
+    secretName: alertmanager.${BASE_DOMAIN}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/name: pushgateway
+  name: pushgateway
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`pushgateway.${BASE_DOMAIN}`)
+      services:
+        - name: pushgateway-prometheus-pushgateway
+          port: 9091
+          kind: Service
+  tls:
+    secretName: pushgateway.${BASE_DOMAIN}

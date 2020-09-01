@@ -1,0 +1,55 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: prometheus.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: prometheus.${BASE_DOMAIN}
+  secretName: prometheus.${BASE_DOMAIN}
+  dnsNames:
+    - prometheus.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: grafana.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: grafana.${BASE_DOMAIN}
+  secretName: grafana.${BASE_DOMAIN}
+  dnsNames:
+    - grafana.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: alertmanager.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: alertmanager.${BASE_DOMAIN}
+  secretName: alertmanager.${BASE_DOMAIN}
+  dnsNames:
+    - alertmanager.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: pushgateway.${BASE_DOMAIN}
+  namespace: ${NAMESPACE}
+spec:
+  commonName: pushgateway.${BASE_DOMAIN}
+  secretName: pushgateway.${BASE_DOMAIN}
+  dnsNames:
+    - pushgateway.${BASE_DOMAIN}
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer
