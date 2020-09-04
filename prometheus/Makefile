@@ -4,7 +4,7 @@ export $(shell sed 's/=.*//' vars.env)
 
 default: install
 
-prometheus: minikube-context
+prometheus: context
 	@helm upgrade \
 		--install \
 		--wait \
@@ -13,7 +13,7 @@ prometheus: minikube-context
 		prometheus-operator stable/prometheus-operator
 .PHONY: prometheus
 
-pushgateway: minikube-context
+pushgateway: context
 	@helm upgrade \
 		--install \
 		--wait \

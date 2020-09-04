@@ -39,7 +39,7 @@ acquire-sudo:
 context:
 	$(call check_defined, KIND_CLUSTER_NAME, Missing variable: KIND_CLUSTER_NAME)
 	@kubectl config use-context kind-${KIND_CLUSTER_NAME}
-.PHONY: minikube-context
+.PHONY: context
 
 namespace: context
 	$(call check_defined, NAMESPACE, Missing variable: NAMESPACE)
